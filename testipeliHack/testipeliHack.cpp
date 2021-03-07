@@ -4,7 +4,9 @@
 
 #include <windows.h>
 #include <iostream>
+
 using namespace std;
+
 
 int main(int argc, char* argv[])
 {
@@ -30,10 +32,13 @@ int main(int argc, char* argv[])
 	size = sizeof(int);
 	address = (DWORD) phandle;
 	int indeksi = 0;
+	int luku = 0;
+	std::cout << "anna ensiluku" << endl;
+	cin >> luku;
 	for (DWORD i = address; i < 0x1000000; i+=4) // scan through memory from start till 0x1000000 
 	{
 		ReadProcessMemory(phandle, (void*)i, &value, sizeof(value), 0); 
-		if (value == 100) {			// if value what we read is 100 add it to array osoitteet
+		if (value == luku) {			// if value what we read is 100 add it to array osoitteet
 			osoitteet[indeksi] = i;
 			indeksi++;
 		}
@@ -49,6 +54,7 @@ int main(int argc, char* argv[])
 		
 		ReadProcessMemory(phandle, (void*)osoitteet[i], &value, sizeof(value), 0);
 		if (value == c) {
+			cout << std::hex << osoitteet[i] << endl;
 			seuraavat[indeksi2] = osoitteet[i];	// add the address to array seuraavat
 			indeksi2++;
 		}
@@ -56,11 +62,14 @@ int main(int argc, char* argv[])
 	cout << "toinen scanni tehty" << endl;
 	cout << "Next value pls" << endl;
 	cin >> c;
-	DWORD lopullinen;
+	DWORD lopulliset[5];
+	int indeksi3 = 0;
 	for (int i = 0; i < indeksi2; i++) {		// scan through seuraavat
 		ReadProcessMemory(phandle, (void*)seuraavat[i], &value, sizeof(value), 0);
 		if (value == c) {
-			lopullinen = seuraavat[i];			// find the value what has changed 2 times in a row now
+
+			lopulliset[indeksi3] = seuraavat[i];
+			indeksi3++;			// find the value what has changed 2 times in a row now
 			cout << value << ":" << seuraavat[i] << "\n"; 
 		}
 
@@ -68,9 +77,12 @@ int main(int argc, char* argv[])
 	SIZE_T bytes_written = 0;
 	int arvo = 0;
 	DWORD koko = 4;
-	WriteProcessMemory(phandle, (LPVOID) lopullinen,&arvo, koko, &bytes_written);	// overwrite the value with 0
-	cout << "written" << arvo << " to 0x" << std::hex << lopullinen << endl;
+	for (int i = 0; i < indeksi3; i++) {
+		WriteProcessMemory(phandle, (LPVOID)lopulliset[i], &arvo, koko, &bytes_written);	// overwrite the value with 0
+		cout << "written" << arvo << " to 0x" << std::hex << lopulliset[i] << endl;
+	}
 	std::cout << "Enter to exit..." << std::endl;
-	cin.ignore();
+
+	cin.get();
 	return 0;
 }
