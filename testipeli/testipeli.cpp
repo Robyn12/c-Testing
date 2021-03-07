@@ -17,6 +17,8 @@ int main()
         monster -= 5;
         if (monster <= 0) {
             std::cout << "You won the game monster is dead" << std::endl;
+            cin.ignore();
+            exit(0);
         }
         if (monster < 50) {
             std::cout << "Monster is under 50 hp heal coming" << std::endl;
