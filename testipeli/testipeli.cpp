@@ -2,21 +2,21 @@
 //  By Robyn12
 #include <Windows.h>
 #include <iostream>
+using namespace std;
 int main()
 {
 
     SetConsoleTitle(L"testipeli");
     int monster = 100;
     while (true) {
-        int hit = 0;
         std::cout << "Hit monster " << std::endl;
         std::cout << "Monster has hitpoints of " << monster << std::endl;
-        std::cin.ignore();
+        std::cin.get();
         monster -= 5;
         if (monster <= 0) {
             std::cout << "You won the game monster is dead" << std::endl;
             std::cin.ignore();
-            exit(0);
+            break;
         }
         if (monster < 50) {
             std::cout << "Monster is under 50 hp heal coming" << std::endl;
