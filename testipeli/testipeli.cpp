@@ -11,11 +11,11 @@ int main()
         int hit = 0;
         std::cout << "Hit monster " << std::endl;
         std::cout << "Monster has hitpoints of " << monster << std::endl;
-        cin.ignore();
+        std::cin.ignore();
         monster -= 5;
         if (monster <= 0) {
             std::cout << "You won the game monster is dead" << std::endl;
-            cin.ignore();
+            std::cin.ignore();
             exit(0);
         }
         if (monster < 50) {
