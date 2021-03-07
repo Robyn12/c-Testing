@@ -54,15 +54,6 @@ int main(int argc, char* argv[])
 	std::cout << "You must hit monster once first" << endl;
 	std::cout << "Give hp" << endl;
 	cin >> luku;
-	/*for (DWORD i = address; i < 0x2000000; i+=4) // scan through memory from start till 0x1000000
-	{
-		ReadProcessMemory(phandle, (LPVOID)i, &value, sizeof(value), 0);
-		if (value == luku) {			// if value what we read is input add it to array osoitteet
-			cout << std::hex << i << endl;
-			osoitteet[indeksi] = i;
-			indeksi++;
-		}
-	}*/
 	int indeksi1[8] = { 0,0,0,0 ,0,0,0,0};
 	std::thread t1(scanRegion, &indeksi1[0], 0, luku, &phandle, address, 0x200000);
 	std::thread t2(scanRegion, &indeksi1[1],1,luku, & phandle, 0x200000, 0x400000);
